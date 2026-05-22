@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndP
 import { AuthContext } from "./AuthContext";
 import { auth } from "../../Firebase/firebase.config";
 import { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 const AuthProvider = ({children}) => { 
 
@@ -10,17 +10,14 @@ const AuthProvider = ({children}) => {
   const [loading, setLoading] = useState(true);
 
   // Register
-  const register = (email, password) => {
+  const registerUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   // Update profile (name + photo)
-  const updateUserProfile = (name, photoURL) => {
-    return updateProfile(auth.currentUser, {
-      displayName: name,
-      photoURL: photoURL,
-    });
+  const updateUserProfile = (profile) => {
+    return updateProfile(auth.currentUser,  profile )
   };
 
   // Login
@@ -40,30 +37,30 @@ const AuthProvider = ({children}) => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
 
-      if (currentUser) {
-        // JWT token নাও server থেকে
-        try {
-          const res = await axios.post(
-            `${import.meta.env.VITE_API_URL}/jwt`,
-            { email: currentUser.email },
-            { withCredentials: true }
-          );
-          console.log("JWT issued:", res.data);
-        } catch (err) {
-          console.error("JWT error:", err);
-        }
-      } else {
-        // Logout হলে token clear করো
-        try {
-          await axios.post(
-            `${import.meta.env.VITE_API_URL}/logout`,
-            {},
-            { withCredentials: true }
-          );
-        } catch (err) {
-          console.error("Logout error:", err);
-        }
-      }
+      // if (currentUser) {
+      //   // JWT token নাও server থেকে
+      //   try {
+      //     const res = await axios.post(
+      //       `${import.meta.env.VITE_API_URL}/jwt`,
+      //       { email: currentUser.email },
+      //       { withCredentials: true }
+      //     );
+      //     console.log("JWT issued:", res.data);
+      //   } catch (err) {
+      //     console.error("JWT error:", err);
+      //   }
+      // } else {
+      //   // Logout হলে token clear করো
+      //   try {
+      //     await axios.post(
+      //       `${import.meta.env.VITE_API_URL}/logout`,
+      //       {},
+      //       { withCredentials: true }
+      //     );
+      //   } catch (err) {
+      //     console.error("Logout error:", err);
+      //   }
+      // }
 
       setLoading(false);
     });
@@ -74,7 +71,7 @@ const AuthProvider = ({children}) => {
   const authInfo = {
     user,
     loading,
-    register,
+    registerUser,
     updateUserProfile,
     logIn,
     logOut,
@@ -82,7 +79,7 @@ const AuthProvider = ({children}) => {
 
     return (
         <AuthContext value={authInfo}>
-            {children}
+            {!loading && children}
         </AuthContext>
     );
 };
