@@ -8,6 +8,8 @@ import MealDetails from "../pages/mealsDetails/MealDetails";
 import Home from "../pages/Home/Home";
 import ErrorPage from "../pages/error/ErrorPage";
 import OrderPage from "../pages/order/OrderPage";
+import DashboardLayout from "../layouts/DashboardLayout";
+import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 
 export const router = createBrowserRouter([
    // ===== Main Layout =====
@@ -51,10 +53,10 @@ export const router = createBrowserRouter([
     ),
     children: [
       // ---- User Routes ----
-      { path: "my-profile", element: <MyProfile /> },
-      { path: "my-orders", element: <MyOrders /> },
-      { path: "my-reviews", element: <MyReviews /> },
-      { path: "favorite-meals", element: <FavoriteMeals /> },  // ← এটা
+      { path: "/dashboard/my-profile", element: <MyProfile /> },
+      // { path: "my-orders", element: <MyOrders /> },
+      // { path: "my-reviews", element: <MyReviews /> },
+      // { path: "favorite-meals", element: <FavoriteMeals /> },  // ← এটা
 
       // ---- Chef Routes (পরে যোগ হবে) ----
       // { path: "create-meal", element: <CreateMeal /> },
