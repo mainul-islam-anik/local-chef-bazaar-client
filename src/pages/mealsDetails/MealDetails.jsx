@@ -64,6 +64,7 @@ const MealDetails = () => {
       foodId: id,
       reviewerName: user.displayName,
       reviewerImage: user.photoURL,
+       reviewerEmail: user.email,
       rating: parseInt(data.rating),
       comment: data.comment,
       date: new Date(),
