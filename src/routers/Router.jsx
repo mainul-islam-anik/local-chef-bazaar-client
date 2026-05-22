@@ -11,6 +11,7 @@ import OrderPage from "../pages/order/OrderPage";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 import MyOrders from "../pages/Dashboard/MyOrders";
+import MyReviews from "../pages/Dashboard/MyReviews";
 
 export const router = createBrowserRouter([
    // ===== Main Layout =====
@@ -56,7 +57,7 @@ export const router = createBrowserRouter([
       // ---- User Routes ----
       { path: "/dashboard/my-profile", element: <MyProfile /> },
       { path: "/dashboard/my-orders", element: <MyOrders /> },
-      // { path: "my-reviews", element: <MyReviews /> },
+      { path: "/dashboard/my-reviews", element: <MyReviews /> },
       // { path: "favorite-meals", element: <FavoriteMeals /> },  // ← এটা
 
       // ---- Chef Routes (পরে যোগ হবে) ----
