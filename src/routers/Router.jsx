@@ -10,6 +10,7 @@ import ErrorPage from "../pages/error/ErrorPage";
 import OrderPage from "../pages/order/OrderPage";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
+import MyOrders from "../pages/Dashboard/MyOrders";
 
 export const router = createBrowserRouter([
    // ===== Main Layout =====
@@ -54,7 +55,7 @@ export const router = createBrowserRouter([
     children: [
       // ---- User Routes ----
       { path: "/dashboard/my-profile", element: <MyProfile /> },
-      // { path: "my-orders", element: <MyOrders /> },
+      { path: "/dashboard/my-orders", element: <MyOrders /> },
       // { path: "my-reviews", element: <MyReviews /> },
       // { path: "favorite-meals", element: <FavoriteMeals /> },  // ← এটা
 
