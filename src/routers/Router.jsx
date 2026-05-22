@@ -13,6 +13,7 @@ import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 import MyOrders from "../pages/Dashboard/MyOrders";
 import MyReviews from "../pages/Dashboard/MyReviews";
 import FavoriteMeals from "../pages/Dashboard/FavoriteMeals";
+import CreateMeal from "../pages/Dashboard/chef/CreateMeal";
 
 export const router = createBrowserRouter([
    // ===== Main Layout =====
@@ -62,8 +63,8 @@ export const router = createBrowserRouter([
       { path: "/dashboard/favorite-meals", element: <FavoriteMeals /> },  // ← এটা
 
       // ---- Chef Routes (পরে যোগ হবে) ----
-      // { path: "create-meal", element: <CreateMeal /> },
-      // { path: "my-meals", element: <MyMeals /> },
+      { path: "/dashboard/create-meal", element: <CreateMeal /> },
+      // { path: "/dashboard/my-meals", element: <MyMeals /> },
       // { path: "order-requests", element: <OrderRequests /> },
 
       // ---- Admin Routes (পরে যোগ হবে) ----
