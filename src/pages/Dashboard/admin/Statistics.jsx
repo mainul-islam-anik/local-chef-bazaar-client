@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
-  BarChart,
   Bar,
   XAxis,
   YAxis,
@@ -12,7 +11,8 @@ import {
   Pie,
   Cell,
   Legend,
-} from "recharts";
+  BarChart,
+}  from 'recharts';
 
 const COLORS = ["#f97316", "#3b82f6", "#22c55e", "#ef4444"];
 
