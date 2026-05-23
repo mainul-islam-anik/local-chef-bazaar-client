@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndP
 import { AuthContext } from "./AuthContext";
 import { auth } from "../../Firebase/firebase.config";
 import { useEffect, useState } from "react";
+import axios from "axios";
 // import axios from "axios";
 
 const AuthProvider = ({children}) => { 
@@ -29,6 +30,8 @@ const AuthProvider = ({children}) => {
   // Logout
   const logOut = () => {
     setLoading(true);
+    // Token remove করো
+    localStorage.removeItem("access-token");
     return signOut(auth);
   };
 
@@ -37,30 +40,23 @@ const AuthProvider = ({children}) => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
 
-      // if (currentUser) {
-      //   // JWT token নাও server থেকে
-      //   try {
-      //     const res = await axios.post(
-      //       `${import.meta.env.VITE_API_URL}/jwt`,
-      //       { email: currentUser.email },
-      //       { withCredentials: true }
-      //     );
-      //     console.log("JWT issued:", res.data);
-      //   } catch (err) {
-      //     console.error("JWT error:", err);
-      //   }
-      // } else {
-      //   // Logout হলে token clear করো
-      //   try {
-      //     await axios.post(
-      //       `${import.meta.env.VITE_API_URL}/logout`,
-      //       {},
-      //       { withCredentials: true }
-      //     );
-      //   } catch (err) {
-      //     console.error("Logout error:", err);
-      //   }
-      // }
+      if (currentUser?.email) {
+        // ✅ JWT Token নাও
+        try {
+          const res = await axios.post(
+            "http://localhost:5000/jwt",
+            { email: currentUser.email },
+            { withCredentials: true }
+          );
+          // Token localStorage এ save করো
+          localStorage.setItem("access-token", res.data.token);
+        } catch (err) {
+          console.error("JWT error:", err);
+        }
+      } else {
+        // Logout হলে token remove করো
+        localStorage.removeItem("access-token");
+      }
 
       setLoading(false);
     });
