@@ -4,13 +4,14 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const MyMeals = () => {
   const { user } = useAuth();
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingMeal, setEditingMeal] = useState(null);
-
+  const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, reset, setValue } = useForm();
 
   useEffect(() => {
@@ -18,8 +19,8 @@ const MyMeals = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/my-meals/${user.email}`)
+    axiosSecure
+      .get(`/my-meals/${user.email}`)
       .then((res) => {
         setMeals(res.data);
         setLoading(false);
@@ -39,7 +40,7 @@ const MyMeals = () => {
     });
 
     if (confirm.isConfirmed) {
-      await axios.delete(`http://localhost:5000/meals/${id}`);
+      await axiosSecure.delete(`/meals/${id}`);
       setMeals((prev) => prev.filter((m) => m._id !== id));
       toast.success("Meal deleted successfully!");
     }
@@ -67,8 +68,8 @@ const MyMeals = () => {
       ingredients: data.ingredients.split(",").map((i) => i.trim()),
     };
 
-    await axios.patch(
-      `http://localhost:5000/meals/${editingMeal._id}`,
+    await axiosSecure.patch(
+      `/meals/${editingMeal._id}`,
       updatedData
     );
 

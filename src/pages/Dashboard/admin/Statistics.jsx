@@ -13,19 +13,23 @@ import {
   Legend,
   BarChart,
 }  from 'recharts';
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const COLORS = ["#f97316", "#3b82f6", "#22c55e", "#ef4444"];
 
 const Statistics = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure();
+
+  
 
   useEffect(() => {
     document.title = "Statistics | Admin Dashboard";
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/admin/statistics").then((res) => {
+    axiosSecure.get("/admin/statistics").then((res) => {
       setStats(res.data);
       setLoading(false);
     });

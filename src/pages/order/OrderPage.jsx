@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const OrderPage = () => {
   const { state } = useLocation();
@@ -21,6 +21,7 @@ const OrderPage = () => {
 
   const quantity = watch("quantity", 1);
   const totalPrice = meal?.price * quantity;
+  const axiosSecure = useAxiosSecure();
 
   const onSubmit = async (data) => {
     // Confirm করার আগে total দেখাও
@@ -50,7 +51,7 @@ const OrderPage = () => {
         orderTime: new Date(),
       };
 
-      await axios.post("http://localhost:5000/orders", orderData);
+      await axiosSecure.post("/orders", orderData);
 
       Swal.fire({
         title: "Order Placed! 🎉",

@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyOrders = () => {
   const { user } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     document.title = "My Orders | Dashboard";
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/orders/${user.email}`)
+    axiosSecure
+      .get(`/orders/${user.email}`)
       .then((res) => {
         setOrders(res.data);
         setLoading(false);
@@ -106,16 +107,19 @@ const MyOrders = () => {
                 </p>
               </div>
 
-              {/* Pay Button — শুধু accepted ও pending payment হলে দেখাবে */}
-              {order.orderStatus === "accepted" &&
-                order.paymentStatus === "Pending" && (
-                  <button
-                    onClick={() => handlePayment(order)}
-                    className="w-full bg-green-500 hover:bg-green-600 text-white py-2.5 rounded-xl text-sm font-semibold transition"
-                  >
-                    💳 Pay Now
-                  </button>
-                )}
+              {/* ✅ নতুন code — pending এবং delivered উভয়তেই দেখাবে */}
+            {(order.orderStatus === "accepted" ||
+              order.orderStatus === "pending" ||
+              order.orderStatus === "delivered") &&
+              order.paymentStatus === "Pending" && (
+                <button
+                  onClick={() => handlePayment(order)}
+                  className="w-full bg-green-500 hover:bg-green-600 text-white py-2.5 rounded-xl text-sm font-semibold transition"
+                >
+                  💳 Pay Now
+                </button>
+              )}
+                
             </div>
           ))}
         </div>

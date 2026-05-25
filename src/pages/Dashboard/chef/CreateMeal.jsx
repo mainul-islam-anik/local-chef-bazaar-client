@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const CreateMeal = () => {
   const { user } = useAuth();
   const [userInfo, setUserInfo] = useState(null);
+    const axiosSecure = useAxiosSecure();
 
   const {
     register,
@@ -21,8 +23,8 @@ const CreateMeal = () => {
 
   // Chef info আনো (chefId দরকার)
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/users/${user.email}`)
+    axiosSecure
+      .get(`/users/${user.email}`)
       .then((res) => setUserInfo(res.data));
   }, [user.email]);
 
@@ -76,7 +78,7 @@ const CreateMeal = () => {
       createdAt: new Date(),
     };
 
-    const res = await axios.post("http://localhost:5000/meals", mealData);
+    const res = await axiosSecure.post("/meals", mealData);
 
     if (res.data.insertedId) {
       toast.success("Meal created successfully! 🍽");

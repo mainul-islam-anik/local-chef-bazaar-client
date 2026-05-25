@@ -41,17 +41,23 @@ const MyProfile = () => {
         requestStatus: "pending",
         requestTime: new Date(),
       };
-
+        try {
+      // ✅ সরাসরি axios দিয়ে পাঠান
       const res = await axios.post(
         "http://localhost:5000/requests",
         requestData
       );
 
       if (res.data.insertedId) {
-        toast.success(`Request sent to admin successfully!`);
+        toast.success("Request sent successfully!");
       } else {
         toast.error("You already have a pending request!");
       }
+    } catch (error) {
+      toast.error("Something went wrong!");
+      console.error(error);
+    }
+      
     }
   };
 

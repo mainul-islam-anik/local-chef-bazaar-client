@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const FavoriteMeals = () => {
   const { user } = useAuth();
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     document.title = "Favorite Meals | Dashboard";
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/favorites/${user.email}`)
+    axiosSecure
+      .get(`/favorites/${user.email}`)
       .then((res) => {
         setFavorites(res.data);
         setLoading(false);
@@ -34,7 +35,7 @@ const FavoriteMeals = () => {
     });
 
     if (confirm.isConfirmed) {
-      await axios.delete(`http://localhost:5000/favorites/${id}`);
+      await axiosSecure.delete(`/favorites/${id}`);
       setFavorites((prev) => prev.filter((fav) => fav._id !== id));
       toast.success("Meal removed from favorites successfully!");
     }

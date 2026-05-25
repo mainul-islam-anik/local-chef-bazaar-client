@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyReviews = () => {
   const { user } = useAuth();
@@ -12,14 +12,15 @@ const MyReviews = () => {
   const [editingReview, setEditingReview] = useState(null);
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     document.title = "My Reviews | Dashboard";
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/my-reviews/${user.email}`)
+    axiosSecure
+      .get(`/my-reviews/${user.email}`)
       .then((res) => {
         setReviews(res.data);
         setLoading(false);
@@ -39,7 +40,7 @@ const MyReviews = () => {
     });
 
     if (confirm.isConfirmed) {
-      await axios.delete(`http://localhost:5000/reviews/${id}`);
+      await axiosSecure.delete(`/reviews/${id}`);
       setReviews((prev) => prev.filter((r) => r._id !== id));
       toast.success("Review deleted successfully!");
     }
@@ -54,7 +55,7 @@ const MyReviews = () => {
 
   // Update submit
   const onUpdateSubmit = async (data) => {
-    await axios.patch(`http://localhost:5000/reviews/${editingReview._id}`, {
+    await axiosSecure.patch(`/reviews/${editingReview._id}`, {
       rating: parseInt(data.rating),
       comment: data.comment,
     });

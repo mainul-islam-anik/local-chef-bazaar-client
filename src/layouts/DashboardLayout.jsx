@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
-  const { user, logout } = useAuth();
+  const { user, logOut } = useAuth();
   const [userRole, setUserRole] = useState("user");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
@@ -20,9 +20,14 @@ const DashboardLayout = () => {
   }, [user]);
 
   const handleLogout = async () => {
-    await logout();
-    toast.success("Logged out!");
-    navigate("/");
+    try {
+      await logOut();
+      toast.success("Logged out successfully!");
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong!");
+    }
   };
 
   // Role অনুযায়ী nav links

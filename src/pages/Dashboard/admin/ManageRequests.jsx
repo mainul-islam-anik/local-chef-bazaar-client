@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const ManageRequests = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosSecure =useAxiosSecure();
 
   useEffect(() => {
     document.title = "Manage Requests | Admin Dashboard";
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/requests").then((res) => {
+    axiosSecure.get("/requests").then((res) => {
       setRequests(res.data);
       setLoading(false);
     });
@@ -19,8 +20,8 @@ const ManageRequests = () => {
 
   const handleAccept = async (request) => {
     try {
-      await axios.patch(
-        `http://localhost:5000/requests/accept/${request._id}`,
+      await axiosSecure.patch(
+        `/requests/accept/${request._id}`,
         {
           userEmail: request.userEmail,
           requestType: request.requestType,
@@ -45,8 +46,8 @@ const ManageRequests = () => {
 
   const handleReject = async (requestId) => {
     try {
-      await axios.patch(
-        `http://localhost:5000/requests/reject/${requestId}`
+      await axiosSecure.patch(
+        `/requests/reject/${requestId}`
       );
 
       setRequests((prev) =>

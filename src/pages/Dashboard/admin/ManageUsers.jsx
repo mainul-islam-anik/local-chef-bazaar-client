@@ -2,21 +2,23 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     document.title = "Manage Users | Admin Dashboard";
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/users").then((res) => {
+    axiosSecure.get("/users").then((res) => {
       setUsers(res.data);
       setLoading(false);
     });
-  }, []);
+  }, [axiosSecure]);
 
   const handleMakeFraud = async (userId, userName) => {
     const confirm = await Swal.fire({
@@ -30,7 +32,7 @@ const ManageUsers = () => {
     });
 
     if (confirm.isConfirmed) {
-      await axios.patch(`http://localhost:5000/users/fraud/${userId}`);
+      await axiosSecure.patch(`/users/fraud/${userId}`);
 
       setUsers((prev) =>
         prev.map((u) =>

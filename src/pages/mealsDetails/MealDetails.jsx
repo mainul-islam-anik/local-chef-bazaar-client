@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 // import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MealDetails = () => {
   const { id } = useParams();
@@ -14,7 +15,7 @@ const MealDetails = () => {
   const [meal, setMeal] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   // Page title
@@ -49,7 +50,7 @@ const MealDetails = () => {
       addedTime: new Date(),
     };
 
-    const res = await axios.post("http://localhost:5000/favorites", favData);
+    const res = await axiosSecure.post("/favorites", favData);
 
     if (res.data.message === "Already in favorites") {
       toast.error("This meal is already in your favorites!");
@@ -70,7 +71,7 @@ const MealDetails = () => {
       date: new Date(),
     };
 
-    await axios.post("http://localhost:5000/reviews", reviewData);
+    await axiosSecure.post("/reviews", reviewData);
 
     // নতুন review তাৎক্ষণিকভাবে দেখাও
     setReviews((prev) => [reviewData, ...prev]);

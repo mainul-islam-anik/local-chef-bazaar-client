@@ -1,37 +1,64 @@
 import { useForm } from "react-hook-form";
-import { Link, Navigate, useLocation, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router"; // ✅ react-router-dom
 import useAuth from "../../hooks/useAuth";
-import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { user, logIn } =  useAuth()
+  const { user, logIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Login এর পর কোথায় যাবে সেটা ঠিক করা
-  const from = location.state || "/";
+  const from = location.state?.from?.pathname || "/";
 
-    if (user) return <Navigate to={from} replace={true} />
-
+  if (user) {
+    return <Navigate to={from} replace={true} />;
+  }
 
   const onSubmit = async (data) => {
     const { email, password } = data;
     try {
       await logIn(email, password);
+
+      Swal.fire({
+        title: "Welcome Back! 🎉",
+        text: "Login successful!",
+        icon: "success",
+        confirmButtonColor: "#f97316",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
       navigate(from, { replace: true });
-      toast.success("Login successful!");
+
     } catch (error) {
-      console.log(error)
-      toast.error("Invalid email or password!");
+      let errorMessage = "Something went wrong!";
+
+      if (
+        error.code === "auth/invalid-credential" ||
+        error.code === "auth/wrong-password" ||
+        error.code === "auth/user-not-found"
+      ) {
+        errorMessage = "Invalid email or password!";
+      } else if (error.code === "auth/invalid-email") {
+        errorMessage = "Please enter a valid email address!";
+      } else if (error.code === "auth/too-many-requests") {
+        errorMessage = "Too many failed attempts. Try again later!";
+      }
+
+      Swal.fire({
+        title: "Login Failed! ❌",
+        text: errorMessage,
+        icon: "error",
+        confirmButtonColor: "#f97316",
+        confirmButtonText: "Try Again",
+      });
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-orange-50">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
-        
-        {/* Title */}
         <h2 className="text-3xl font-bold text-center text-orange-600 mb-2">
           Welcome Back!
         </h2>
@@ -40,8 +67,6 @@ const Login = () => {
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          
-          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email Address
@@ -57,7 +82,6 @@ const Login = () => {
             )}
           </div>
 
-          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password
@@ -73,7 +97,6 @@ const Login = () => {
             )}
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 rounded-lg transition duration-200"
@@ -82,7 +105,6 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Register Link */}
         <p className="text-center text-gray-500 mt-4">
           Don't have an account?{" "}
           <Link to="/register" className="text-orange-600 font-semibold hover:underline">

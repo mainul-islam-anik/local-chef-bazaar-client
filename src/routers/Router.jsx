@@ -19,6 +19,8 @@ import OrderRequests from "../pages/Dashboard/chef/OrderRequests";
 import ManageUsers from "../pages/Dashboard/admin/ManageUsers";
 import ManageRequests from "../pages/Dashboard/admin/ManageRequests";
 import Statistics from "../pages/Dashboard/admin/Statistics";
+import PaymentSuccess from "../pages/payment/PaymentSuccess";
+import Payment from "../pages/payment/Payment";
 
 export const router = createBrowserRouter([
    // ===== Main Layout =====
@@ -46,6 +48,22 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <OrderPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/payment",
+        element: (
+          <PrivateRoute>
+            <Payment />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/payment-success",
+        element: (
+          <PrivateRoute>
+            <PaymentSuccess />
           </PrivateRoute>
         ),
       },

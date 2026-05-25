@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const OrderRequests = () => {
   const { user } = useAuth();
@@ -9,6 +10,7 @@ const OrderRequests = () => {
   const [loading, setLoading] = useState(true);
   const [chefId, setChefId] = useState(null);
   const [notChef, setNotChef] = useState(false); // ← নতুন
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     document.title = "Order Requests | Chef Dashboard";
@@ -18,8 +20,8 @@ const OrderRequests = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    axios
-      .get(`http://localhost:5000/users/${user.email}`)
+    axiosSecure
+      .get(`/users/${user.email}`)
       .then((res) => {
         const fetchedChefId = res.data?.chefId;
 
@@ -41,8 +43,8 @@ const OrderRequests = () => {
   useEffect(() => {
     if (!chefId) return;
 
-    axios
-      .get(`http://localhost:5000/chef-orders/${chefId}`)
+    axiosSecure
+      .get(`/chef-orders/${chefId}`)
       .then((res) => {
         setOrders(res.data);
         setLoading(false); // ← orders পেলে loading বন্ধ
@@ -55,8 +57,8 @@ const OrderRequests = () => {
   // Order status update — route নাম ঠিক করা হয়েছে
   const handleStatusUpdate = async (orderId, newStatus) => {
     try {
-      await axios.patch(
-        `http://localhost:5000/orders/update-status/${orderId}`,
+      await axiosSecure.patch(
+        `/orders/update-status/${orderId}`,
         { orderStatus: newStatus }
       );
 

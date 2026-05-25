@@ -1,40 +1,49 @@
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useEffect } from "react";
 import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
   baseURL: "http://localhost:5000",
-  withCredentials: true, // cookie পাঠাবে
 });
 
 const useAxiosSecure = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
-  // Request interceptor — token পাঠাবে
-  axiosSecure.interceptors.request.use(
-    (config) => {
-      const token = localStorage.getItem("access-token");
-      if (token) {
-        config.headers.authorization = `Bearer ${token}`;
-      }
-      return config;
-    },
-    (error) => Promise.reject(error)
-  );
+  useEffect(() => {
+    // ✅ useEffect এর ভেতরে রাখলে
+    // বারবার যোগ হবে না
 
-  // Response interceptor — 401/403 হলে logout
-  axiosSecure.interceptors.response.use(
-    (response) => response,
-    async (error) => {
-      const status = error?.response?.status;
-      if (status === 401 || status === 403) {
-        await logout();
-        navigate("/login");
+    const requestInterceptor = axiosSecure.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem("access-token");
+        if (token) {
+          config.headers.authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+
+    const responseInterceptor = axiosSecure.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const status = error?.response?.status;
+        if (status === 401 || status === 403) {
+          await logout();
+          navigate("/login");
+        }
+        return Promise.reject(error);
       }
-      return Promise.reject(error);
-    }
-  );
+    );
+
+    // ✅ Cleanup — component unmount হলে interceptors সরিয়ে দাও
+    return () => {
+      axiosSecure.interceptors.request.eject(requestInterceptor);
+      axiosSecure.interceptors.response.eject(responseInterceptor);
+    };
+  }, [logout, navigate]);
 
   return axiosSecure;
 };

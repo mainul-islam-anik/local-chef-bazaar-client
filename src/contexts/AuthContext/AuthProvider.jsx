@@ -46,7 +46,6 @@ const AuthProvider = ({children}) => {
           const res = await axios.post(
             "http://localhost:5000/jwt",
             { email: currentUser.email },
-            { withCredentials: true }
           );
           // Token localStorage এ save করো
           localStorage.setItem("access-token", res.data.token);
@@ -74,9 +73,10 @@ const AuthProvider = ({children}) => {
   };
 
     return (
-        <AuthContext value={authInfo}>
-            {!loading && children}
-        </AuthContext>
+         
+        <AuthContext.Provider value={authInfo}>
+          {!loading && children}
+        </AuthContext.Provider>
     );
 };
 
