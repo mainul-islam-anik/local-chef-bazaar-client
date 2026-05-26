@@ -15,7 +15,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/users/${user.email}`)
+      .get(`https://local-chef-bazaar-server-inky.vercel.app//users/${user.email}`)
       .then((res) => {
         setUserInfo(res.data);
         setLoading(false);
@@ -44,7 +44,7 @@ const MyProfile = () => {
         try {
       // ✅ সরাসরি axios দিয়ে পাঠান
       const res = await axios.post(
-        "http://localhost:5000/requests",
+        "https://local-chef-bazaar-server-inky.vercel.app//requests",
         requestData
       );
 

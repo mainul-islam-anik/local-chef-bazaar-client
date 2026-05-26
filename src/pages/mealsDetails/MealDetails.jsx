@@ -25,7 +25,7 @@ const MealDetails = () => {
 
   // Meal data আনো
   useEffect(() => {
-    axios.get(`http://localhost:5000/meals/${id}`).then((res) => {
+    axios.get(`https://local-chef-bazaar-server-inky.vercel.app//meals/${id}`).then((res) => {
       setMeal(res.data);
       setLoading(false);
     });
@@ -33,7 +33,7 @@ const MealDetails = () => {
 
   // Reviews আনো
   useEffect(() => {
-    axios.get(`http://localhost:5000/reviews/${id}`).then((res) => {
+    axios.get(`https://local-chef-bazaar-server-inky.vercel.app//reviews/${id}`).then((res) => {
       setReviews(res.data);
     });
   }, [id]);
