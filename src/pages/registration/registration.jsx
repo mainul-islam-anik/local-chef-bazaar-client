@@ -37,7 +37,7 @@ const Register = () => {
         status: "active",   // default status
       };
 
-      axios.post("https://local-chef-bazaar-server-inky.vercel.app//users", userInfo);
+      axios.post("https://local-chef-bazaar-server-inky.vercel.app/users", userInfo);
 
       toast.success("Registration successful! Welcome!");
       navigate("/");

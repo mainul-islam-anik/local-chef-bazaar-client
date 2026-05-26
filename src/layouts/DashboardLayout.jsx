@@ -14,7 +14,7 @@ const DashboardLayout = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`https://local-chef-bazaar-server-inky.vercel.app//users/${user.email}`)
+        .get(`https://local-chef-bazaar-server-inky.vercel.app/users/${user.email}`)
         .then((res) => setUserRole(res.data?.role || "user"));
     }
   }, [user]);

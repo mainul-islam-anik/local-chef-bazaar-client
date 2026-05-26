@@ -7,7 +7,7 @@ const DailyMeals = () => {
 
   useEffect(() => {
     // Server থেকে ৬টি meal আনো
-    axios.get("https://local-chef-bazaar-server-inky.vercel.app//daily-meals").then((res) => {
+    axios.get("https://local-chef-bazaar-server-inky.vercel.app/daily-meals").then((res) => {
       setMeals(res.data);
     });
   }, []);

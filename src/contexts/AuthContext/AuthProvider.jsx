@@ -44,7 +44,7 @@ const AuthProvider = ({children}) => {
         // ✅ JWT Token নাও
         try {
           const res = await axios.post(
-            "https://local-chef-bazaar-server-inky.vercel.app//jwt",
+            "https://local-chef-bazaar-server-inky.vercel.app/jwt",
             { email: currentUser.email },
           );
           // Token localStorage এ save করো

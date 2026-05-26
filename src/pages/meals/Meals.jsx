@@ -20,7 +20,7 @@ const Meals = () => {
   useEffect(() => {
     const skip = (currentPage - 1) * itemsPerPage;
     axios
-      .get(`https://local-chef-bazaar-server-inky.vercel.app//meals?skip=${skip}&limit=${itemsPerPage}&sort=${sortOrder}`)
+      .get(`https://local-chef-bazaar-server-inky.vercel.app/meals?skip=${skip}&limit=${itemsPerPage}&sort=${sortOrder}`)
       .then((res) => {
         setMeals(res.data.meals);
         setTotalMeals(res.data.total);

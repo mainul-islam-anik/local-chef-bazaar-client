@@ -5,7 +5,7 @@ const CustomerReviews = () => {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    axios.get("https://local-chef-bazaar-server-inky.vercel.app//reviews").then((res) => {
+    axios.get("https://local-chef-bazaar-server-inky.vercel.app/reviews").then((res) => {
       setReviews(res.data);
     });
   }, []);
