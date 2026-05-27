@@ -85,12 +85,12 @@ export const router = createBrowserRouter([
       { path: "/dashboard/my-reviews", element: <MyReviews /> },
       { path: "/dashboard/favorite-meals", element: <FavoriteMeals /> },  // ← এটা
 
-      // ---- Chef Routes (পরে যোগ হবে) ----
+      // ---- Chef Routes  ----
       { path: "/dashboard/create-meal", element: <CreateMeal /> },
       { path: "/dashboard/my-meals", element: <MyMeals /> },
       { path: "/dashboard/order-requests", element: <OrderRequests /> },
 
-      // ---- Admin Routes (পরে যোগ হবে) ----
+      // ---- Admin Routes ----
       { path: "/dashboard/manage-users", element: <ManageUsers /> },
       { path: "/dashboard/manage-requests", element: <ManageRequests /> },
       { path: "/dashboard/statistics", element: <Statistics /> },

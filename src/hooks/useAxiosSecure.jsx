@@ -12,8 +12,6 @@ const useAxiosSecure = () => {
   const { logout } = useAuth();
 
   useEffect(() => {
-    // ✅ useEffect এর ভেতরে রাখলে
-    // বারবার যোগ হবে না
 
     const requestInterceptor = axiosSecure.interceptors.request.use(
       (config) => {
@@ -38,7 +36,6 @@ const useAxiosSecure = () => {
       }
     );
 
-    // ✅ Cleanup — component unmount হলে interceptors সরিয়ে দাও
     return () => {
       axiosSecure.interceptors.request.eject(requestInterceptor);
       axiosSecure.interceptors.response.eject(responseInterceptor);

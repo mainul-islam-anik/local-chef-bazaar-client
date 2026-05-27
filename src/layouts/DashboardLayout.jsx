@@ -10,7 +10,6 @@ const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
-  // User এর role বের করো
   useEffect(() => {
     if (user?.email) {
       axios
@@ -30,7 +29,6 @@ const DashboardLayout = () => {
     }
   };
 
-  // Role অনুযায়ী nav links
   const userLinks = (
     <>
       <SidebarLink to="/dashboard/my-profile" icon="👤" label="My Profile" />

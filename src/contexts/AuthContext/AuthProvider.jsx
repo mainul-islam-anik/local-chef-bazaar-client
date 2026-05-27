@@ -41,19 +41,19 @@ const AuthProvider = ({children}) => {
       setUser(currentUser);
 
       if (currentUser?.email) {
-        // ✅ JWT Token নাও
+        // ✅ JWT Token
         try {
           const res = await axios.post(
             "https://local-chef-bazaar-server-inky.vercel.app/jwt",
             { email: currentUser.email },
           );
-          // Token localStorage এ save করো
+          // save Token to localStorage
           localStorage.setItem("access-token", res.data.token);
         } catch (err) {
           console.error("JWT error:", err);
         }
       } else {
-        // Logout হলে token remove করো
+        // if Logout  token removed
         localStorage.removeItem("access-token");
       }
 

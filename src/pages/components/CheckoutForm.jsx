@@ -18,7 +18,7 @@ const CheckoutForm = ({ order }) => {
 
   const totalPrice = order.price * order.quantity;
 
-  // Payment Intent তৈরি করো
+  // make Payment Intent 
   useEffect(() => {
     if (totalPrice > 0) {
       axiosSecure
@@ -40,7 +40,7 @@ const CheckoutForm = ({ order }) => {
     setProcessing(true);
     setCardError("");
 
-    // Card validate করো
+    // DO Card validate 
     const { error: methodError, paymentMethod } =
       await stripe.createPaymentMethod({
         type: "card",
@@ -53,7 +53,7 @@ const CheckoutForm = ({ order }) => {
       return;
     }
 
-    // Payment confirm করো
+    // Payment confirm 
     const { paymentIntent, error: confirmError } =
       await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
