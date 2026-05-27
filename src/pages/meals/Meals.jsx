@@ -23,7 +23,7 @@ const Meals = () => {
     const skip = (currentPage - 1) * itemsPerPage;
     axios
       .get(
-        `https://local-chef-bazaar-server-inky.vercel.app/meals?skip=${skip}&limit=${itemsPerPage}&sort=${sortOrder}&search=${search}`
+        `https://local-chef-bazaar-server-inky.vercel.app/meals?skip=${skip}&limit=${itemsPerPage}&sort=${sortOrder}&search=${encodeURIComponent(search)}`
       )
       .then((res) => {
         setMeals(res.data.meals);
