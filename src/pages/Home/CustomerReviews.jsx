@@ -7,6 +7,9 @@ const CustomerReviews = () => {
   useEffect(() => {
     axios.get("https://local-chef-bazaar-server-inky.vercel.app/reviews").then((res) => {
       setReviews(res.data);
+    })
+    .catch((err) => {
+      console.error("Reviews error:", err);
     });
   }, []);
 

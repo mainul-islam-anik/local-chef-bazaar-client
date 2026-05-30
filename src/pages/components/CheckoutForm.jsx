@@ -42,10 +42,11 @@ const CheckoutForm = ({ order }) => {
 
     // DO Card validate 
     const { error: methodError, paymentMethod } =
-      await stripe.createPaymentMethod({
+    await stripe.createPaymentMethod({
         type: "card",
         card,
-      });
+    });
+    console.log(paymentMethod)
 
     if (methodError) {
       setCardError(methodError.message);

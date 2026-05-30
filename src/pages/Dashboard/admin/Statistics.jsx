@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import {
   Bar,
   XAxis,
@@ -33,7 +32,7 @@ const Statistics = () => {
       setStats(res.data);
       setLoading(false);
     });
-  }, []);
+  }, [axiosSecure]);
 
   if (loading) {
     return (
